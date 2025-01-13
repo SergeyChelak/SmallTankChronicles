@@ -1,0 +1,17 @@
+//
+//  System.swift
+//  STCEngine
+//
+//  Created by Sergey on 14.01.2025.
+//
+
+import Foundation
+
+public protocol System {
+    @MainActor
+    func update(entities: [GameEntity], deltaTime: TimeInterval)
+}
+
+public protocol Collider {
+    func onContact(_ first: GameEntity, second: GameEntity)
+}

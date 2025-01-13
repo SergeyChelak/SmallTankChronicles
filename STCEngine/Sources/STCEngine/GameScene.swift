@@ -81,7 +81,7 @@ public class GameScene: SKScene {
     }
     
     private var mapScaleFactor: STCFloat {
-        1.0
+        gameLoop?.appearance.mapScaleFactor ?? 1.0
     }
 }
 

@@ -37,10 +37,6 @@ extension STCFloat {
         return difference
     }
     
-    public func sqr() -> STCFloat {
-        self * self
-    }
-    
     public func sqrt() -> STCFloat {
         Darwin.sqrt(self)
     }

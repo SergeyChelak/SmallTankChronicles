@@ -14,7 +14,7 @@ public class MovementComponent: Component {
     public var turnLeft = false
     public var turnRight = false
                 
-    func reset() {
+    public func reset() {
         accelerate = false
         decelerate = false
         turnLeft = false

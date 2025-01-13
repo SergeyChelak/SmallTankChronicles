@@ -18,11 +18,3 @@ public protocol GameLoop: AnyObject {
 public enum RunLoopEvent {
     case update, physicsSimulated
 }
-
-public protocol System {
-    func update(entities: [GameEntity], deltaTime: TimeInterval)
-}
-
-public protocol Collider {
-    func onContact(_ first: GameEntity, second: GameEntity)
-}

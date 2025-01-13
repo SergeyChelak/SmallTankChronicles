@@ -15,8 +15,20 @@ struct GameView: View {
     private var state = GameViewState()
     
     var body: some View {
-        SpriteView(scene: GameScene(gameLoop: state.gameLoop))
-            .ignoresSafeArea()
+        SpriteView(
+            scene: GameScene(gameLoop: state.gameLoop),
+            options: [.ignoresSiblingOrder],
+            debugOptions: [.showsFPS, .showsPhysics, .showsNodeCount]
+        )
+#if os(OSX)
+        .onKeyPress(phases: [.up, .down]) { press in
+            guard state.onKeyPress(press) else {
+                return .ignored
+            }
+            return .handled
+        }
+#endif
+        .ignoresSafeArea()
     }
 }
 
@@ -26,6 +38,13 @@ class GameViewState: ObservableObject {
     }
     
     let gameLoop = SequentialGameLoop(appearance: Appearance())
+    
+#if os(OSX)
+    func onKeyPress(_ keyPress: KeyPress) -> Bool {
+//        print("key: \(keyPress)")
+        return false
+    }
+#endif
 }
 
 #Preview {

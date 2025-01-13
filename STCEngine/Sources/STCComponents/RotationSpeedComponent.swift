@@ -8,9 +8,9 @@
 import STCCommon
 
 public class RotationSpeedComponent: Component {
-    public var rotationSpeed: STCFloat
+    public var value: STCFloat
     
     init(rotationSpeed: STCFloat) {
-        self.rotationSpeed = rotationSpeed
+        self.value = rotationSpeed
     }
 }

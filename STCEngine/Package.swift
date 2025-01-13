@@ -14,6 +14,7 @@ let package = Package(
         .library(name: "STCCommon", targets: ["STCEngine"]),
         .library(name: "STCComponents", targets: ["STCEngine"]),
         .library(name: "STCResources", targets: ["STCEngine"]),
+        .library(name: "STCSystems", targets: ["STCEngine"]),
         .library(name: "STCEngine", targets: ["STCEngine"]),
     ],
     targets: [
@@ -21,6 +22,7 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(name: "STCCommon"),
         .target(name: "STCComponents", dependencies: ["STCCommon"]),
+        .target(name: "STCSystems", dependencies: ["STCCommon", "STCComponents"]),
         .target(name: "STCResources"),
         .target(name: "STCEngine", dependencies: ["STCCommon", "STCComponents"]),
 
