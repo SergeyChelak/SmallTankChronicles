@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A5D3F6D72D3554CA00C3DA3A /* STCEngine in Frameworks */ = {isa = PBXBuildFile; productRef = A5D3F6D62D3554CA00C3DA3A /* STCEngine */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A5D3F6C12D354AF500C3DA3A /* SmallTankChronicles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmallTankChronicles.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5D3F6D42D3554BB00C3DA3A /* STCEngine */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = STCEngine; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5D3F6D72D3554CA00C3DA3A /* STCEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -34,6 +40,8 @@
 			children = (
 				A5D3F6C32D354AF500C3DA3A /* SmallTankChronicles */,
 				A5D3F6C22D354AF500C3DA3A /* Products */,
+				A5D3F6D42D3554BB00C3DA3A /* STCEngine */,
+				A5D3F6D52D3554CA00C3DA3A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -43,6 +51,13 @@
 				A5D3F6C12D354AF500C3DA3A /* SmallTankChronicles.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A5D3F6D52D3554CA00C3DA3A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +80,7 @@
 			);
 			name = SmallTankChronicles;
 			packageProductDependencies = (
+				A5D3F6D62D3554CA00C3DA3A /* STCEngine */,
 			);
 			productName = SmallTankChronicles;
 			productReference = A5D3F6C12D354AF500C3DA3A /* SmallTankChronicles.app */;
@@ -335,6 +351,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A5D3F6D62D3554CA00C3DA3A /* STCEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STCEngine;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A5D3F6B92D354AF500C3DA3A /* Project object */;
 }
