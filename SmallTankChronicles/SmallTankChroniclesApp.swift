@@ -14,7 +14,7 @@ import AppKit
 struct SmallTankChroniclesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GameView()
 #if os(OSX)
                 .onDisappear {
                     NSApplication.shared.terminate(nil)
