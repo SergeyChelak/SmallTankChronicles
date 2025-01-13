@@ -14,13 +14,18 @@ public class GameScene: SKScene {
     private let cameraNode = SKCameraNode()
     private var levelRect: CGRect = .zero
     
-    public required init(gameLoop: GameLoop) {
-        super.init(size: .zero)
+    public required init(
+        size: CGSize,
+        gameLoop: GameLoop
+    ) {
+        super.init(size: size)
+        self.anchorPoint = .zero
         self.gameLoop = gameLoop
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(size: .zero)
+        self.anchorPoint = .zero
     }
     
     public override func didMove(to view: SKView) {
@@ -39,6 +44,7 @@ public class GameScene: SKScene {
         super.update(currentTime)
         let entities = allEntities()
         Task {
+            print(self.size)
             gameLoop?.update(
                 entities: entities,
                 currentTime: currentTime

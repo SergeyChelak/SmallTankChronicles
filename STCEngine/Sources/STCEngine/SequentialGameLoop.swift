@@ -46,6 +46,7 @@ extension SequentialGameLoop: GameLoop {
         previousTime = currentTime
     }
     
+    @MainActor
     public func physicsSimulated(entities: [STCCommon.GameEntity]) {
         for system in self.systems[.physicsSimulated] ?? [] {
             system.update(entities: entities, deltaTime: deltaTime)

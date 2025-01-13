@@ -15,8 +15,17 @@ struct GameView: View {
     private var state = GameViewState()
     
     var body: some View {
+        GeometryReader { gr in
+            spriteView(gr.size)
+        }
+    }
+    
+    private func spriteView(_ size: CGSize) -> some View {
         SpriteView(
-            scene: GameScene(gameLoop: state.gameLoop),
+            scene: GameScene(
+                size: size,
+                gameLoop: state.gameLoop
+            ),
             options: [.ignoresSiblingOrder],
             debugOptions: [.showsFPS, .showsPhysics, .showsNodeCount]
         )
