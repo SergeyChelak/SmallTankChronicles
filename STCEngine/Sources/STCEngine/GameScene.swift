@@ -21,6 +21,7 @@ public class GameScene: SKScene {
         super.init(size: size)
         self.anchorPoint = .zero
         self.gameLoop = gameLoop
+        gameLoop.setFrontent(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -100,4 +101,8 @@ extension GameScene: SKPhysicsContactDelegate {
             gameLoop?.didContactEntities(first: entityA, second: entityB)
         }
     }
+}
+
+extension GameScene: GameSceneFrontend {
+    //
 }

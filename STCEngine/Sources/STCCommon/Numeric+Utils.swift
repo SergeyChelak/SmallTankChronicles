@@ -6,7 +6,7 @@
 //
 
 extension Numeric {
-    func sqr() -> Self {
+    public func sqr() -> Self {
         self * self
     }
 }

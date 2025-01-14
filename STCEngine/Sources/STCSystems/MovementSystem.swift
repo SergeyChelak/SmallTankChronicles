@@ -13,7 +13,11 @@ public class MovementSystem: System {
     public init() { }
     
     @MainActor
-    public func update(entities: [GameEntity], deltaTime: TimeInterval) {
+    public func update(
+        entities: [STCCommon.GameEntity],
+        deltaTime: TimeInterval,
+        commandService: any STCCommon.CommandService
+    ) {
         entities.forEach {
             update(entity: $0, deltaTime: deltaTime)
         }
@@ -26,7 +30,7 @@ public class MovementSystem: System {
               let accelerateComp = entity.getComponent(of: AccelerationComponent.self) else {
             return
         }
-        let maxSpeed = entity.getComponent(of: MaxSpeedComponent.self)?.maxSpeed ?? STCFloat.infinity
+        let maxSpeed = entity.getComponent(of: MaxSpeedComponent.self)?.value ?? STCFloat.infinity
         comp.updateSpeed(acceleration: accelerateComp.value, maxSpeed: maxSpeed)
         
         let rotation = comp.turnDirection * rotationSpeedComponent.value * deltaTime

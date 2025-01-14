@@ -14,30 +14,26 @@ import SwiftUI
 import GameController
 #endif
 
-class GameViewState: ObservableObject {
-    struct Appearance: GameAppearance {
-        var mapScaleFactor: STCFloat { 3.0 }
-    }
-    
-    private let appearance = Appearance()
+class GameViewState: ObservableObject {    
     private let userInputController = UserInputController()
-    let gameLoop: GameLoop
+    private let gameLoop: GameLoop
     
-    init() {
-        let gameLoop = SequentialGameLoop(appearance: appearance)
-        self.gameLoop = gameLoop
+    init(parameters: GameParameters) {
+        self.gameLoop = makeGameLoop(
+            parameters: parameters,
+            userInputController: userInputController
+        )
         
-        let inputSystem = {
-            let dataSource = UserInputDataSource(userInputController)
-            return InputSystem(dataSource: dataSource)
-        }()
-        gameLoop.register(system: inputSystem, for: .update)
-        // TODO: add shot system
-        gameLoop.register(system: MovementSystem(), for: .update)
-        // TODO: add npc system
 #if os(iOS)
         setupController()
 #endif
+    }
+    
+    @MainActor func gameScene(_ size: CGSize) -> GameScene {
+        GameScene(
+            size: size,
+            gameLoop: gameLoop
+        )
     }
     
 #if os(iOS)
@@ -77,4 +73,33 @@ class GameViewState: ObservableObject {
         return true
     }
 #endif
+}
+
+func makeGameLoop(
+    parameters: GameParameters,
+    userInputController: UserInputController
+) -> GameLoop {
+    let gameLoop = SequentialGameLoop(appearance: parameters.appearance)
+    // WARNING: Order is matter
+    
+    // input system
+    let inputSystem = {
+        let dataSource = UserInputDataSource(userInputController)
+        return InputSystem(dataSource: dataSource)
+    }()
+    gameLoop.register(system: inputSystem, for: .update)
+    
+    // TODO: add shot system
+    gameLoop.register(system: MovementSystem(), for: .update)
+    
+    let npcParams = parameters.npcParameters
+    let npcSystem = NpcSystem(
+        fieldOfView: npcParams.fieldOfView,
+        rayLength: npcParams.rayLength,
+        raysCount: npcParams.raysCount,
+        attackDistance: npcParams.attackDistance
+    )
+    gameLoop.register(system: npcSystem, for: .update)
+    
+    return gameLoop
 }

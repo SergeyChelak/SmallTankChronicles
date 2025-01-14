@@ -18,7 +18,7 @@ public class SequentialGameLoop {
     private var deltaTime: TimeInterval = 0.0
     private var systems: [RunLoopEvent: [System]] = [:]
     private var collider: Collider?
-    
+    private weak var frontend: GameSceneFrontend?
     public let appearance: GameAppearance
     
     public init(appearance: GameAppearance) {
@@ -36,12 +36,16 @@ public class SequentialGameLoop {
     }
 }
 
-extension SequentialGameLoop: GameLoop {    
+extension SequentialGameLoop: GameLoop {
+    public func setFrontent(_ frontend: GameSceneFrontend) {
+        self.frontend = frontend
+    }
+    
     @MainActor
     public func update(entities: [STCCommon.GameEntity], currentTime: TimeInterval) {
         deltaTime = currentTime - (previousTime ?? currentTime)
         for system in self.systems[.update] ?? [] {
-            system.update(entities: entities, deltaTime: deltaTime)
+            system.update(entities: entities, deltaTime: deltaTime, commandService: self)
         }
         previousTime = currentTime
     }
@@ -49,12 +53,22 @@ extension SequentialGameLoop: GameLoop {
     @MainActor
     public func physicsSimulated(entities: [STCCommon.GameEntity]) {
         for system in self.systems[.physicsSimulated] ?? [] {
-            system.update(entities: entities, deltaTime: deltaTime)
+            system.update(entities: entities, deltaTime: deltaTime, commandService: self)
         }
     }
     
     @MainActor
     public func didContactEntities(first: STCCommon.GameEntity, second: STCCommon.GameEntity) {
         collider?.onContact(first, second: second)
+    }
+}
+
+extension SequentialGameLoop: CommandService {
+    public func vision(_ start: CGPoint, rayLength: CGFloat, angle: CGFloat) -> [STCCommon.GameEntity] {
+        fatalError()
+    }
+    
+    public func spawnEntity(_ entity: STCCommon.GameEntity) {
+        fatalError()
     }
 }

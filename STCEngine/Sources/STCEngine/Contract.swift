@@ -10,11 +10,16 @@ import STCCommon
 
 public protocol GameLoop: AnyObject {
     var appearance: GameAppearance { get }
-    @MainActor func update(entities: [GameEntity], currentTime: TimeInterval)    
+    func setFrontent(_ frontend: GameSceneFrontend)
+    @MainActor func update(entities: [GameEntity], currentTime: TimeInterval)
     @MainActor func physicsSimulated(entities: [GameEntity])
     @MainActor func didContactEntities(first: GameEntity, second: GameEntity)
 }
 
 public enum RunLoopEvent {
     case update, physicsSimulated
+}
+
+public protocol GameSceneFrontend: AnyObject {
+    //
 }

@@ -6,15 +6,15 @@
 //
 
 import SwiftUI
-#if os(OSX)
-import AppKit
-#endif
 
 @main
 struct SmallTankChroniclesApp: App {
+    // TODO: create factory
+    let params = GameParameters()
+    
     var body: some Scene {
         WindowGroup {
-            GameView()
+            GameView(params: params)
 #if os(OSX)
                 .onDisappear {
                     NSApplication.shared.terminate(nil)

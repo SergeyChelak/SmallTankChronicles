@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias STCFloat = Double
+public typealias STCFloat = CGFloat
 
 extension STCFloat {
     public func degreesToRadians() -> STCFloat {
@@ -26,8 +26,8 @@ extension STCFloat {
         return val
     }
     
-    public func signedAngleDifference(_ other: Self) -> CGFloat {
-        let twoPi: CGFloat = 2.0 * .pi
+    public func signedAngleDifference(_ other: Self) -> STCFloat {
+        let twoPi: STCFloat = 2.0 * .pi
         var difference = (self - other).truncatingRemainder(dividingBy: twoPi)
         if difference > .pi {
             difference -= twoPi
@@ -52,5 +52,4 @@ extension STCFloat {
     public func max(_ other: STCFloat) -> STCFloat {
         Swift.max(self, other)
     }
-
 }

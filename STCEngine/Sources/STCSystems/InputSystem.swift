@@ -32,7 +32,11 @@ public class InputSystem: System {
         self.dataSource = dataSource
     }
     
-    public func update(entities: [STCCommon.GameEntity], deltaTime: TimeInterval) {
+    public func update(
+        entities: [STCCommon.GameEntity],
+        deltaTime: TimeInterval,
+        commandService: any STCCommon.CommandService
+    ) {
         let inputState = dataSource.getState()
         entities
             .filter {

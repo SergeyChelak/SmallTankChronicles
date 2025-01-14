@@ -11,7 +11,11 @@ import SpriteKit
 
 struct GameView: View {
     @StateObject
-    private var state = GameViewState()
+    private var state: GameViewState
+    
+    init(params: GameParameters) {
+        _state = StateObject(wrappedValue: GameViewState(parameters: params))
+    }
     
     var body: some View {
         GeometryReader { gr in
@@ -21,10 +25,7 @@ struct GameView: View {
     
     private func spriteView(_ size: CGSize) -> some View {
         SpriteView(
-            scene: GameScene(
-                size: size,
-                gameLoop: state.gameLoop
-            ),
+            scene: state.gameScene(size),
             options: [.ignoresSiblingOrder],
             debugOptions: [.showsFPS, .showsPhysics, .showsNodeCount]
         )
@@ -37,6 +38,6 @@ struct GameView: View {
     }
 }
 
-#Preview {
-    GameView()
-}
+//#Preview {
+//    GameView()
+//}

@@ -8,9 +8,9 @@
 import STCCommon
 
 public class MaxSpeedComponent: Component {
-    public var maxSpeed: STCFloat
+    public var value: STCFloat
     
     public init(maxSpeed: STCFloat) {
-        self.maxSpeed = maxSpeed
+        self.value = maxSpeed
     }
 }
