@@ -25,11 +25,21 @@ public enum GamepadButton {
 public struct KeyEventData {
     public let isPressed: Bool
     public let keyEquivalent: KeyEquivalent
+    
+    public init(isPressed: Bool, keyEquivalent: KeyEquivalent) {
+        self.isPressed = isPressed
+        self.keyEquivalent = keyEquivalent
+    }
 }
 
 public struct GamepadButtonState {
     public let button: GamepadButton
     public let isPressed: Bool
+    
+    public init(button: GamepadButton, isPressed: Bool) {
+        self.button = button
+        self.isPressed = isPressed
+    }
 }
 
 public enum UserInputEvent {

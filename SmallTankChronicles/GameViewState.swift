@@ -8,6 +8,7 @@
 import STCCommon
 import STCEngine
 import STCSystems
+import STCUserInput
 import SwiftUI
 #if os(iOS)
 import GameController
@@ -19,17 +20,21 @@ class GameViewState: ObservableObject {
     }
     
     private let appearance = Appearance()
-    private let inputSystem = InputSystem()
-    private let movementSystem = MovementSystem()
+    private let userInputController = UserInputController()
     let gameLoop: GameLoop
     
     init() {
         let gameLoop = SequentialGameLoop(appearance: appearance)
+        self.gameLoop = gameLoop
+        
+        let inputSystem = {
+            let dataSource = UserInputDataSource(userInputController)
+            return InputSystem(dataSource: dataSource)
+        }()
         gameLoop.register(system: inputSystem, for: .update)
         // TODO: add shot system
-        gameLoop.register(system: movementSystem, for: .update)
+        gameLoop.register(system: MovementSystem(), for: .update)
         // TODO: add npc system
-        self.gameLoop = gameLoop
 #if os(iOS)
         setupController()
 #endif
@@ -52,14 +57,14 @@ class GameViewState: ObservableObject {
             print("Can't get extended gamepad")
             return
         }
-        extendedGamepad.dpad.valueChangedHandler = { [weak inputSystem] _, xValue, yValue in
+        extendedGamepad.dpad.valueChangedHandler = { [weak userInputController] _, xValue, yValue in
             let data = DirectionData(xValue: xValue, yValue: yValue)
-            inputSystem?.handle(.padDirectionChanged(data))
+            userInputController?.handle(.padDirectionChanged(data))
         }
         
-        extendedGamepad.buttonX.valueChangedHandler = { [weak inputSystem] _, _, isPressed in
+        extendedGamepad.buttonX.valueChangedHandler = { [weak userInputController] _, _, isPressed in
             let data = GamepadButtonState(button: .x, isPressed: isPressed)
-            inputSystem?.handle(.gamepadButton(data))
+            userInputController?.handle(.gamepadButton(data))
         }
     }
 #endif
@@ -67,27 +72,8 @@ class GameViewState: ObservableObject {
     
 #if os(OSX)
     func onKeyPress(_ keyPress: KeyPress) -> Bool {
-        switch keyPress.key {
-        case .downArrow:
-            break
-        case .upArrow:
-            break
-        case .space:
-            break
-        case .leftArrow:
-            break
-        case .rightArrow:
-            break
-        case "-":
-            break
-        case "+":
-            break
-        default:
-            break
-        }
-                
-//        let data = KeyEventData(isPressed: keyPress.phase == .down, keyCode: keyPress.key)
-//        self.inputSystem.handle(.key(data))
+        let data = KeyEventData(isPressed: keyPress.phase == .down, keyEquivalent: keyPress.key)
+        userInputController.handle(.key(data))
         return true
     }
 #endif
