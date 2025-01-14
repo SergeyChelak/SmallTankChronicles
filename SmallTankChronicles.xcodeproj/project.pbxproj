@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A5D3F6D72D3554CA00C3DA3A /* STCEngine in Frameworks */ = {isa = PBXBuildFile; productRef = A5D3F6D62D3554CA00C3DA3A /* STCEngine */; };
+		A5D3F6E52D36C38100C3DA3A /* STCSystems in Frameworks */ = {isa = PBXBuildFile; productRef = A5D3F6E42D36C38100C3DA3A /* STCSystems */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5D3F6E52D36C38100C3DA3A /* STCSystems in Frameworks */,
 				A5D3F6D72D3554CA00C3DA3A /* STCEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +83,7 @@
 			name = SmallTankChronicles;
 			packageProductDependencies = (
 				A5D3F6D62D3554CA00C3DA3A /* STCEngine */,
+				A5D3F6E42D36C38100C3DA3A /* STCSystems */,
 			);
 			productName = SmallTankChronicles;
 			productReference = A5D3F6C12D354AF500C3DA3A /* SmallTankChronicles.app */;
@@ -356,6 +359,10 @@
 		A5D3F6D62D3554CA00C3DA3A /* STCEngine */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = STCEngine;
+		};
+		A5D3F6E42D36C38100C3DA3A /* STCSystems */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STCSystems;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -13,8 +13,8 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(name: "STCCommon", targets: ["STCEngine"]),
         .library(name: "STCComponents", targets: ["STCEngine"]),
-        .library(name: "STCResources", targets: ["STCEngine"]),
-        .library(name: "STCSystems", targets: ["STCEngine"]),
+//        .library(name: "STCResources", targets: ["STCEngine"]),
+        .library(name: "STCSystems", targets: ["STCSystems"]),
         .library(name: "STCEngine", targets: ["STCEngine"]),
     ],
     targets: [
@@ -23,7 +23,7 @@ let package = Package(
         .target(name: "STCCommon"),
         .target(name: "STCComponents", dependencies: ["STCCommon"]),
         .target(name: "STCSystems", dependencies: ["STCCommon", "STCComponents"]),
-        .target(name: "STCResources"),
+//        .target(name: "STCResources"),
         .target(name: "STCEngine", dependencies: ["STCCommon", "STCComponents"]),
 
     ]

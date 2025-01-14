@@ -16,8 +16,8 @@ public class SequentialGameLoop {
     private var previousTime: TimeInterval?
     private var state: GameState = .run
     private var deltaTime: TimeInterval = 0.0
-    
     private var systems: [RunLoopEvent: [System]] = [:]
+    private var collider: Collider?
     
     public let appearance: GameAppearance
     
@@ -32,7 +32,7 @@ public class SequentialGameLoop {
     }
     
     public func register(collider: Collider) {
-        //
+        self.collider = collider
     }
 }
 
@@ -55,6 +55,6 @@ extension SequentialGameLoop: GameLoop {
     
     @MainActor
     public func didContactEntities(first: STCCommon.GameEntity, second: STCCommon.GameEntity) {
-        //
+        collider?.onContact(first, second: second)
     }
 }

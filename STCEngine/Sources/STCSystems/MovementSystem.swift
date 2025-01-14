@@ -10,6 +10,8 @@ import STCComponents
 import SpriteKit
 
 public class MovementSystem: System {
+    public init() { }
+    
     @MainActor
     public func update(entities: [GameEntity], deltaTime: TimeInterval) {
         entities.forEach {
