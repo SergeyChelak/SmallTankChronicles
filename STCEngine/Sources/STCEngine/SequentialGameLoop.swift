@@ -37,7 +37,7 @@ public class SequentialGameLoop {
 }
 
 extension SequentialGameLoop: GameLoop {
-    public func setFrontent(_ frontend: GameSceneFrontend) {
+    public func setFrontend(_ frontend: GameSceneFrontend) {
         self.frontend = frontend
     }
     

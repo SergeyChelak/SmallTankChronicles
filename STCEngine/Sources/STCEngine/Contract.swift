@@ -10,7 +10,7 @@ import STCCommon
 
 public protocol GameLoop: AnyObject {
     var appearance: GameAppearance { get }
-    func setFrontent(_ frontend: GameSceneFrontend)
+    func setFrontend(_ frontend: GameSceneFrontend)
     @MainActor func update(entities: [GameEntity], currentTime: TimeInterval)
     @MainActor func physicsSimulated(entities: [GameEntity])
     @MainActor func didContactEntities(first: GameEntity, second: GameEntity)

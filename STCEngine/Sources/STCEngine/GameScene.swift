@@ -21,7 +21,7 @@ public class GameScene: SKScene {
         super.init(size: size)
         self.anchorPoint = .zero
         self.gameLoop = gameLoop
-        gameLoop.setFrontent(self)
+        gameLoop.setFrontend(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
