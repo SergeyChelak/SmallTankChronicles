@@ -67,6 +67,25 @@ class GameViewState: ObservableObject {
     
 #if os(OSX)
     func onKeyPress(_ keyPress: KeyPress) -> Bool {
+        switch keyPress.key {
+        case .downArrow:
+            break
+        case .upArrow:
+            break
+        case .space:
+            break
+        case .leftArrow:
+            break
+        case .rightArrow:
+            break
+        case "-":
+            break
+        case "+":
+            break
+        default:
+            break
+        }
+                
 //        let data = KeyEventData(isPressed: keyPress.phase == .down, keyCode: keyPress.key)
 //        self.inputSystem.handle(.key(data))
         return true

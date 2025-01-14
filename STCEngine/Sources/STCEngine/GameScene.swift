@@ -44,7 +44,6 @@ public class GameScene: SKScene {
         super.update(currentTime)
         let entities = allEntities()
         Task {
-            print(self.size)
             gameLoop?.update(
                 entities: entities,
                 currentTime: currentTime

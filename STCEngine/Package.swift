@@ -6,14 +6,14 @@ import PackageDescription
 let package = Package(
     name: "STCEngine",
     platforms: [
-        .macOS(.v10_15),
+        .macOS(.v11),
         .iOS(.v17)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(name: "STCCommon", targets: ["STCEngine"]),
         .library(name: "STCComponents", targets: ["STCEngine"]),
-//        .library(name: "STCResources", targets: ["STCEngine"]),
+        .library(name: "STCUserInput", targets: ["STCUserInput"]),
         .library(name: "STCSystems", targets: ["STCSystems"]),
         .library(name: "STCEngine", targets: ["STCEngine"]),
     ],
@@ -23,7 +23,7 @@ let package = Package(
         .target(name: "STCCommon"),
         .target(name: "STCComponents", dependencies: ["STCCommon"]),
         .target(name: "STCSystems", dependencies: ["STCCommon", "STCComponents"]),
-//        .target(name: "STCResources"),
+        .target(name: "STCUserInput"),
         .target(name: "STCEngine", dependencies: ["STCCommon", "STCComponents"]),
 
     ]
