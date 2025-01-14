@@ -13,7 +13,8 @@ public protocol System {
 }
 
 public protocol Collider {
-    func onContact(_ first: GameEntity, second: GameEntity)
+    @MainActor
+    func onContact(entityA: GameEntity, entityB: GameEntity)
 }
 
 public protocol CommandService {

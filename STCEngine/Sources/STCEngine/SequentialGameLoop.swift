@@ -59,7 +59,7 @@ extension SequentialGameLoop: GameLoop {
     
     @MainActor
     public func didContactEntities(first: STCCommon.GameEntity, second: STCCommon.GameEntity) {
-        collider?.onContact(first, second: second)
+        collider?.onContact(entityA: first, entityB: second)
     }
 }
 

@@ -101,5 +101,7 @@ func makeGameLoop(
     )
     gameLoop.register(system: npcSystem, for: .update)
     
+    gameLoop.register(collider: PhysicSystem())
+    
     return gameLoop
 }
