@@ -35,6 +35,7 @@ struct GameView: View {
                 state.onKeyPress(press) ? .handled : .ignored
             }
 #endif
+            HudView()
         }
         .ignoresSafeArea()
     }

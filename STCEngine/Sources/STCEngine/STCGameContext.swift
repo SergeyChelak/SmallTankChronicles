@@ -1,5 +1,5 @@
 //
-//  SequentialGameLoop.swift
+//  STCGameContext.swift
 //  STCEngine
 //
 //  Created by Sergey on 13.01.2025.
@@ -12,7 +12,7 @@ enum GameState {
     case run, win, lose
 }
 
-public class SequentialGameLoop {
+public class STCGameContext {
     private var previousTime: TimeInterval?
     private var state: GameState = .run
     private var deltaTime: TimeInterval = 0.0
@@ -38,7 +38,7 @@ public class SequentialGameLoop {
     }
 }
 
-extension SequentialGameLoop: GameLoop {
+extension STCGameContext: GameContext {
     public func setFrontend(_ frontend: GameSceneFrontend) {
         self.frontend = frontend
     }
@@ -68,7 +68,7 @@ extension SequentialGameLoop: GameLoop {
     }
 }
 
-extension SequentialGameLoop: CommandService {
+extension STCGameContext: CommandService {
     @MainActor
     public func vision(_ start: CGPoint, rayLength: CGFloat, angle: CGFloat) -> [STCCommon.GameEntity] {
         let _end = start.vectorValue + .rotation(angle) * rayLength

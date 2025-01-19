@@ -8,7 +8,7 @@
 import Foundation
 import STCCommon
 
-public protocol GameLoop: AnyObject {
+public protocol GameContext: AnyObject {
     var appearance: GameAppearance { get }
     func setFrontend(_ frontend: GameSceneFrontend)
     @MainActor func update(entities: [GameEntity], currentTime: TimeInterval)

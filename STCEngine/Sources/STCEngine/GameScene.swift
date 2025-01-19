@@ -10,18 +10,18 @@ import STCComponents
 import SpriteKit
 
 public class GameScene: SKScene {    
-    private weak var gameLoop: GameLoop?
+    private weak var context: GameContext?
     private let cameraNode = SKCameraNode()
     private var levelRect: CGRect = .zero
     
     public required init(
         size: CGSize,
-        gameLoop: GameLoop
+        context: GameContext
     ) {
         super.init(size: size)
         self.anchorPoint = .zero
-        self.gameLoop = gameLoop
-        gameLoop.setFrontend(self)
+        self.context = context
+        context.setFrontend(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -45,7 +45,7 @@ public class GameScene: SKScene {
         super.update(currentTime)
         let entities = allEntities()
         Task {
-            gameLoop?.update(
+            context?.update(
                 entities: entities,
                 currentTime: currentTime
             )
@@ -55,7 +55,7 @@ public class GameScene: SKScene {
     public override func didSimulatePhysics() {
         super.didSimulatePhysics()
         alignCameraPosition()
-        gameLoop?.physicsSimulated(entities: allEntities())
+        context?.physicsSimulated(entities: allEntities())
     }
     
     private func alignCameraPosition() {
@@ -87,7 +87,7 @@ public class GameScene: SKScene {
     }
     
     private var mapScaleFactor: STCFloat {
-        gameLoop?.appearance.mapScaleFactor ?? 1.0
+        context?.appearance.mapScaleFactor ?? 1.0
     }
 }
 
@@ -98,7 +98,7 @@ extension GameScene: SKPhysicsContactDelegate {
             return
         }
         Task { @MainActor in
-            gameLoop?.didContactEntities(first: entityA, second: entityB)
+            context?.didContactEntities(first: entityA, second: entityB)
         }
     }
 }

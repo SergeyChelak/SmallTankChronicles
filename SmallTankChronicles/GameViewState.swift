@@ -16,10 +16,10 @@ import GameController
 
 class GameViewState: ObservableObject {    
     private let userInputController = UserInputController()
-    private let gameLoop: GameLoop
+    private let gameContext: GameContext
     
     init(parameters: GameParameters) {
-        self.gameLoop = makeGameLoop(
+        self.gameContext = makeGameContext(
             parameters: parameters,
             userInputController: userInputController
         )
@@ -32,7 +32,7 @@ class GameViewState: ObservableObject {
     @MainActor func gameScene(_ size: CGSize) -> GameScene {
         GameScene(
             size: size,
-            gameLoop: gameLoop
+            context: gameContext
         )
     }
     
@@ -75,11 +75,11 @@ class GameViewState: ObservableObject {
 #endif
 }
 
-func makeGameLoop(
+func makeGameContext(
     parameters: GameParameters,
     userInputController: UserInputController
-) -> GameLoop {
-    let gameLoop = SequentialGameLoop(appearance: parameters.appearance)
+) -> GameContext {
+    let gameLoop = STCGameContext(appearance: parameters.appearance)
     // WARNING: Order is matter
     
     // input system
