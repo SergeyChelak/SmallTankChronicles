@@ -13,8 +13,8 @@ struct GameView: View {
     @StateObject
     private var state: GameViewState
     
-    init(params: GameParameters) {
-        _state = StateObject(wrappedValue: GameViewState(parameters: params))
+    init(parameters: GameParameters) {
+        _state = StateObject(wrappedValue: GameViewState(parameters: parameters))
     }
     
     var body: some View {
@@ -38,6 +38,6 @@ struct GameView: View {
     }
 }
 
-//#Preview {
-//    GameView()
-//}
+#Preview {
+    GameView(parameters: GameParameters())
+}

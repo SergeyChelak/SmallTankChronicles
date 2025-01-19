@@ -17,11 +17,11 @@ public class Tank: SKSpriteNode {
         case rightTrack
     }
     
-    let config: TankConfiguration
+    let config: TankAppearance
     private var trackTextures: [SKTexture] = []
     private var isTracksAnimating = false
     
-    init(_ config: TankConfiguration) {
+    init(_ config: TankAppearance) {
         self.config = config
         super.init(texture: nil, color: .clear, size: .zero)
         self.setup()

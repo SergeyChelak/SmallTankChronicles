@@ -1,5 +1,5 @@
 //
-//  TankConfiguration.swift
+//  TankAppearance.swift
 //  STCEngine
 //
 //  Created by Sergey on 15.01.2025.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TankConfiguration {
+struct TankAppearance {
     let color: TankColor
     let cannon: TankCannon
     let hull: TankHull

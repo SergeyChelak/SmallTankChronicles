@@ -10,11 +10,11 @@ import SwiftUI
 @main
 struct SmallTankChroniclesApp: App {
     // TODO: create factory
-    let params = GameParameters()
+    let parameters = GameParameters()
     
     var body: some Scene {
         WindowGroup {
-            GameView(params: params)
+            GameView(parameters: parameters)
 #if os(OSX)
                 .onDisappear {
                     NSApplication.shared.terminate(nil)
