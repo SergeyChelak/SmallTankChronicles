@@ -18,6 +18,7 @@ public protocol Collider {
 }
 
 public protocol CommandService {
+    @MainActor
     func vision(_ start: CGPoint, rayLength: CGFloat, angle: CGFloat) -> [GameEntity]
     func spawnEntity(_ entity: GameEntity)
 }

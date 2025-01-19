@@ -21,6 +21,8 @@ public class SequentialGameLoop {
     private weak var frontend: GameSceneFrontend?
     public let appearance: GameAppearance
     
+    private var entitiesToSpawn: [GameEntity] = []
+    
     public init(appearance: GameAppearance) {
         self.appearance = appearance
     }
@@ -55,6 +57,9 @@ extension SequentialGameLoop: GameLoop {
         for system in self.systems[.physicsSimulated] ?? [] {
             system.update(entities: entities, deltaTime: deltaTime, commandService: self)
         }
+        
+        frontend?.addEntities(entitiesToSpawn)
+        entitiesToSpawn.removeAll()
     }
     
     @MainActor
@@ -64,11 +69,18 @@ extension SequentialGameLoop: GameLoop {
 }
 
 extension SequentialGameLoop: CommandService {
+    @MainActor
     public func vision(_ start: CGPoint, rayLength: CGFloat, angle: CGFloat) -> [STCCommon.GameEntity] {
-        fatalError()
+        let _end = start.vectorValue + .rotation(angle) * rayLength
+        let end = _end.pointValue
+        var nodes: [GameEntity] = []
+        frontend?.rayCastEntities(from: start, to: end) {
+            nodes.append($0)
+        }
+        return nodes
     }
     
     public func spawnEntity(_ entity: STCCommon.GameEntity) {
-        fatalError()
+        entitiesToSpawn.append(entity)
     }
 }

@@ -104,5 +104,18 @@ extension GameScene: SKPhysicsContactDelegate {
 }
 
 extension GameScene: GameSceneFrontend {
-    //
+    @MainActor
+    public func addEntities(_ nodes: [GameEntity]) {
+        addChildren(nodes)
+    }
+    
+    @MainActor
+    public func rayCastEntities(from start: CGPoint, to end: CGPoint, handler: @escaping (GameEntity) -> ()) {
+        physicsWorld.enumerateBodies(alongRayStart: start, end: end) { body, _, _, _ in
+            guard let node = body.node as? GameEntity else {
+                return
+            }
+            handler(node)
+        }
+    }
 }

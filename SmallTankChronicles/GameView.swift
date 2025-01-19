@@ -24,16 +24,18 @@ struct GameView: View {
     }
     
     private func spriteView(_ size: CGSize) -> some View {
-        SpriteView(
-            scene: state.gameScene(size),
-            options: [.ignoresSiblingOrder],
-            debugOptions: [.showsFPS, .showsPhysics, .showsNodeCount]
-        )
+        ZStack {
+            SpriteView(
+                scene: state.gameScene(size),
+                options: [.ignoresSiblingOrder],
+                debugOptions: [.showsFPS, .showsPhysics, .showsNodeCount]
+            )
 #if os(OSX)
-        .onKeyPress(phases: [.up, .down]) { press in
-            state.onKeyPress(press) ? .handled : .ignored
-        }
+            .onKeyPress(phases: [.up, .down]) { press in
+                state.onKeyPress(press) ? .handled : .ignored
+            }
 #endif
+        }
         .ignoresSafeArea()
     }
 }

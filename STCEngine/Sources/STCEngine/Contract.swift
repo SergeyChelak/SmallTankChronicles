@@ -21,5 +21,7 @@ public enum RunLoopEvent {
 }
 
 public protocol GameSceneFrontend: AnyObject {
-    //
+    @MainActor func addEntities(_ nodes: [GameEntity])
+    
+    @MainActor func rayCastEntities(from start: CGPoint, to end: CGPoint, handler: @escaping (GameEntity) -> ())
 }
