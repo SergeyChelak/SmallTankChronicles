@@ -22,6 +22,7 @@ public class STCGameContext {
     public let appearance: GameAppearance
     
     private var entitiesToSpawn: [GameEntity] = []
+    private var entitiesToKill: [GameEntity] = []
     
     public init(appearance: GameAppearance) {
         self.appearance = appearance
@@ -30,6 +31,7 @@ public class STCGameContext {
     public func register(system: System, for event: RunLoopEvent) {
         var array = systems[event] ?? []
         array.append(system)
+        system.onConnect(setupService: self)
         systems[event] = array
     }
     
@@ -60,11 +62,14 @@ extension STCGameContext: GameContext {
         
         frontend?.addEntities(entitiesToSpawn)
         entitiesToSpawn.removeAll()
+        
+        frontend?.removeEntities(entitiesToKill)
+        entitiesToKill.removeAll()
     }
     
     @MainActor
     public func didContactEntities(first: STCCommon.GameEntity, second: STCCommon.GameEntity) {
-        collider?.onContact(entityA: first, entityB: second)
+        collider?.onContact(entityA: first, entityB: second, commandService: self)
     }
 }
 
@@ -79,8 +84,16 @@ extension STCGameContext: CommandService {
         }
         return nodes
     }
-    
+        
     public func spawnEntity(_ entity: STCCommon.GameEntity) {
         entitiesToSpawn.append(entity)
     }
+    
+    public func killEntity(_ entity: GameEntity) {
+        entitiesToKill.append(entity)
+    }
+}
+
+extension STCGameContext: GameSceneSetupService {
+    //
 }

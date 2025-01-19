@@ -10,7 +10,7 @@ import STCCommon
 public class HealthComponent: Component {
     public var health: STCFloat
     
-    init(health: STCFloat) {
+    public init(health: STCFloat) {
         self.health = health
     }
 }

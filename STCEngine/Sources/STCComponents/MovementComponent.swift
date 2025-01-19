@@ -6,6 +6,7 @@
 //
 
 import STCCommon
+import CoreGraphics
 
 public class MovementComponent: Component {
     public var movementSpeed: STCFloat = 0.0
@@ -13,6 +14,20 @@ public class MovementComponent: Component {
     public var decelerate = false
     public var turnLeft = false
     public var turnRight = false
+    
+    public init(
+        movementSpeed: STCFloat = 0.0,
+        accelerate: Bool = false,
+        decelerate: Bool = false,
+        turnLeft: Bool = false,
+        turnRight: Bool = false
+    ) {
+        self.movementSpeed = movementSpeed
+        self.accelerate = accelerate
+        self.decelerate = decelerate
+        self.turnLeft = turnLeft
+        self.turnRight = turnRight
+    }
                 
     public func reset() {
         accelerate = false

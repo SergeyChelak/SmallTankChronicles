@@ -110,6 +110,12 @@ extension GameScene: GameSceneFrontend {
     }
     
     @MainActor
+    public func removeEntities(_ nodes: [GameEntity]) {
+        nodes.forEach { $0.removeFromParent() }
+    }
+
+    
+    @MainActor
     public func rayCastEntities(from start: CGPoint, to end: CGPoint, handler: @escaping (GameEntity) -> ()) {
         physicsWorld.enumerateBodies(alongRayStart: start, end: end) { body, _, _, _ in
             guard let node = body.node as? GameEntity else {

@@ -23,7 +23,7 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(name: "STCCommon"),
         .target(name: "STCComponents", dependencies: ["STCCommon"]),
-        .target(name: "STCSystems", dependencies: ["STCCommon", "STCComponents"]),
+        .target(name: "STCSystems", dependencies: ["STCCommon", "STCComponents", "STCObjects"]),
         .target(name: "STCUserInput"),
         .target(name: "STCEngine", dependencies: ["STCCommon", "STCComponents"]),
         .target(name: "STCObjects", dependencies: ["STCCommon", "STCComponents"]),

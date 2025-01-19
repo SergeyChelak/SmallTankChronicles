@@ -7,16 +7,30 @@
 
 import STCCommon
 
-public class UserInputMarker: Component { }
+public class UserInputMarker: Component {
+    public init() { }
+}
 
-public class PlayerMarker: Component { }
+public class PlayerMarker: Component {
+    public init() { }
+}
 
-public class ProjectileMarker: Component { }
+public class ProjectileMarker: Component {
+    public init() { }
+}
 
-public class NpcMarker: Component { }
+public class NpcMarker: Component {
+    public init() { }
+}
 
-public class ObstacleMarker: Component { }
+public class ObstacleMarker: Component {
+    public init() { }
+}
 
-public class BorderMarker: Component { }
+public class BorderMarker: Component {
+    public init() { }
+}
 
-public class RuinableObstacleMarker: Component { }
+public class RuinableObstacleMarker: Component {
+    public init() { }
+}

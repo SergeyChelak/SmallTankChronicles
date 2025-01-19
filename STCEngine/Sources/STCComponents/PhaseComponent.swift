@@ -10,7 +10,7 @@ import STCCommon
 public class PhaseComponent: Component {
     public var phase: STCFloat
     
-    init(phase: STCFloat = 0.5 * .pi) {
+    public init(phase: STCFloat = 0.5 * .pi) {
         self.phase = phase
     }
 }

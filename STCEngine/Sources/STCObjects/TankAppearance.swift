@@ -7,41 +7,41 @@
 
 import Foundation
 
-struct TankAppearance {
-    let color: TankColor
-    let cannon: TankCannon
-    let hull: TankHull
-    let tracks: TankTracks
+public struct TankAppearance {
+    public let color: TankColor
+    public let cannon: TankCannon
+    public let hull: TankHull
+    public let tracks: TankTracks
     
-    let maxSpeed: CGFloat
-    let rotationSpeed: CGFloat
+    public let maxSpeed: CGFloat
+    public let rotationSpeed: CGFloat
     
-    var hullImageName: String {
+    public var hullImageName: String {
         [ "Hull",
           color.key,
           hull.key
         ].joined(separator: "_")
     }
     
-    var cannonImageName: String {
+    public var cannonImageName: String {
         [ "Gun",
           color.key,
           cannon.key
         ].joined(separator: "_")
     }
     
-    var trackAtlasName: String {
+    public var trackAtlasName: String {
         tracks.key
     }
 }
 
-enum TankColor {
+public enum TankColor {
     case bronze
     case yellow
     case cyan
     case blue
 
-    var key: String {
+    public var key: String {
         switch self {
         case .bronze:
             return "A"
@@ -55,7 +55,7 @@ enum TankColor {
     }
 }
 
-enum TankCannon {
+public enum TankCannon {
     case standard
     case lightImproved
     case semiStandard
@@ -65,7 +65,7 @@ enum TankCannon {
     case heavy
     case heavyImproved
 
-    var key: String {
+    public var key: String {
         switch self {
         case .standard:
             return "01"
@@ -87,7 +87,7 @@ enum TankCannon {
     }
 }
 
-enum TankHull {
+public enum TankHull {
     case hull1
     case hull2
     case hull3
@@ -97,7 +97,7 @@ enum TankHull {
     case hull7
     case hull8
 
-    var key: String {
+    public var key: String {
         switch self {
         case .hull1:
             return "01"
@@ -119,12 +119,12 @@ enum TankHull {
     }
 }
 
-enum TankTracks {
+public enum TankTracks {
     case type1
     case type2
     case type3
     
-    var key: String {
+    public var key: String {
         switch self {
         case .type1:
             return "Track_1"
