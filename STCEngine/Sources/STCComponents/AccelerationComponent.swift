@@ -10,7 +10,7 @@ import STCCommon
 public class AccelerationComponent: Component {
     public var value: STCFloat
     
-    init(acceleration: STCFloat) {
+    public init(acceleration: STCFloat) {
         self.value = acceleration
     }
 }

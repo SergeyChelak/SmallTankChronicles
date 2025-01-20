@@ -17,12 +17,12 @@ public class Tank: SKSpriteNode {
         case rightTrack
     }
     
-    let config: TankAppearance
+    let appearance: TankAppearance
     private var trackTextures: [SKTexture] = []
     private var isTracksAnimating = false
     
-    public init(_ config: TankAppearance) {
-        self.config = config
+    public init(_ appearance: TankAppearance) {
+        self.appearance = appearance
         super.init(texture: nil, color: .clear, size: .zero)
         self.setup()
     }
@@ -37,13 +37,13 @@ public class Tank: SKSpriteNode {
     }
     
     private func setupChildren() {
-        let hull = SKSpriteNode(imageNamed: config.hullImageName)
+        let hull = SKSpriteNode(imageNamed: appearance.hullImageName)
         hull.name = Element.hull.rawValue
         hull.zPosition = 9
         self.size = hull.size
         addChild(hull)
         
-        let cannon = SKSpriteNode(imageNamed: config.cannonImageName)
+        let cannon = SKSpriteNode(imageNamed: appearance.cannonImageName)
         cannon.name = Element.cannon.rawValue
         cannon.zPosition = 10
         cannon.anchorPoint = CGPoint(x: 0.5, y: 0.2)
@@ -55,7 +55,7 @@ public class Tank: SKSpriteNode {
     }
     
     private func createTracks() -> [SKSpriteNode] {
-        trackTextures = textures(from: config.trackAtlasName)
+        trackTextures = textures(from: appearance.trackAtlasName)
         guard let texture = trackTextures.first else {
             return []
         }

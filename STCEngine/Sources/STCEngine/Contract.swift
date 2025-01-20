@@ -11,6 +11,8 @@ import STCCommon
 public protocol GameContext: AnyObject {
     var appearance: GameAppearance { get }
     func setFrontend(_ frontend: GameSceneFrontend)
+    @MainActor
+    func setup()
     @MainActor func update(entities: [GameEntity], currentTime: TimeInterval)
     @MainActor func physicsSimulated(entities: [GameEntity])
     @MainActor func didContactEntities(first: GameEntity, second: GameEntity)

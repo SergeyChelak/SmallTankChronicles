@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5894A332D3EEE5700332E98 /* STCLevel in Frameworks */ = {isa = PBXBuildFile; productRef = A5894A322D3EEE5700332E98 /* STCLevel */; };
 		A5D3F6D72D3554CA00C3DA3A /* STCEngine in Frameworks */ = {isa = PBXBuildFile; productRef = A5D3F6D62D3554CA00C3DA3A /* STCEngine */; };
 		A5D3F6E52D36C38100C3DA3A /* STCSystems in Frameworks */ = {isa = PBXBuildFile; productRef = A5D3F6E42D36C38100C3DA3A /* STCSystems */; };
 		A5D3F6ED2D36F3C200C3DA3A /* STCUserInput in Frameworks */ = {isa = PBXBuildFile; productRef = A5D3F6EC2D36F3C200C3DA3A /* STCUserInput */; };
@@ -32,6 +33,7 @@
 			files = (
 				A5D3F6E52D36C38100C3DA3A /* STCSystems in Frameworks */,
 				A5D3F6ED2D36F3C200C3DA3A /* STCUserInput in Frameworks */,
+				A5894A332D3EEE5700332E98 /* STCLevel in Frameworks */,
 				A5D3F6D72D3554CA00C3DA3A /* STCEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,6 +89,7 @@
 				A5D3F6D62D3554CA00C3DA3A /* STCEngine */,
 				A5D3F6E42D36C38100C3DA3A /* STCSystems */,
 				A5D3F6EC2D36F3C200C3DA3A /* STCUserInput */,
+				A5894A322D3EEE5700332E98 /* STCLevel */,
 			);
 			productName = SmallTankChronicles;
 			productReference = A5D3F6C12D354AF500C3DA3A /* SmallTankChronicles.app */;
@@ -359,6 +362,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A5894A322D3EEE5700332E98 /* STCLevel */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STCLevel;
+		};
 		A5D3F6D62D3554CA00C3DA3A /* STCEngine */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = STCEngine;

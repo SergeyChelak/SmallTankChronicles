@@ -12,10 +12,7 @@ public struct TankAppearance {
     public let cannon: TankCannon
     public let hull: TankHull
     public let tracks: TankTracks
-    
-    public let maxSpeed: CGFloat
-    public let rotationSpeed: CGFloat
-    
+        
     public var hullImageName: String {
         [ "Hull",
           color.key,

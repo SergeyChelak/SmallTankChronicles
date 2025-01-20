@@ -17,6 +17,7 @@ let package = Package(
         .library(name: "STCSystems", targets: ["STCSystems"]),
         .library(name: "STCEngine", targets: ["STCEngine"]),
         .library(name: "STCObjects", targets: ["STCObjects"]),
+        .library(name: "STCLevel", targets: ["STCLevel"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -24,6 +25,7 @@ let package = Package(
         .target(name: "STCCommon"),
         .target(name: "STCComponents", dependencies: ["STCCommon"]),
         .target(name: "STCSystems", dependencies: ["STCCommon", "STCComponents", "STCObjects"]),
+        .target(name: "STCLevel", dependencies: ["STCCommon", "STCComponents", "STCObjects"]),
         .target(name: "STCUserInput"),
         .target(name: "STCEngine", dependencies: ["STCCommon", "STCComponents"]),
         .target(name: "STCObjects", dependencies: ["STCCommon", "STCComponents"]),

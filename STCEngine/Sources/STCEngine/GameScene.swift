@@ -31,6 +31,7 @@ public class GameScene: SKScene {
     
     public override func didMove(to view: SKView) {
         super.didMove(to: view)
+        context?.setup()
         setupCamera()
         physicsWorld.contactDelegate = self
     }

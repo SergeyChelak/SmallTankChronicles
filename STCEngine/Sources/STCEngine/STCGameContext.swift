@@ -20,6 +20,7 @@ public class STCGameContext {
     private var collider: Collider?
     private weak var frontend: GameSceneFrontend?
     public let appearance: GameAppearance
+    private var didSetup = false
     
     private var entitiesToSpawn: [GameEntity] = []
     private var entitiesToKill: [GameEntity] = []
@@ -31,7 +32,6 @@ public class STCGameContext {
     public func register(system: System, for event: RunLoopEvent) {
         var array = systems[event] ?? []
         array.append(system)
-        system.onConnect(setupService: self)
         systems[event] = array
     }
     
@@ -41,6 +41,15 @@ public class STCGameContext {
 }
 
 extension STCGameContext: GameContext {
+    @MainActor
+    public func setup() {
+//        guard !didSetup else { return }
+        systems
+            .flatMap { $0.value }
+            .forEach { $0.onConnect(setupService: self) }
+        didSetup = true
+    }
+    
     public func setFrontend(_ frontend: GameSceneFrontend) {
         self.frontend = frontend
     }
@@ -60,8 +69,11 @@ extension STCGameContext: GameContext {
             system.update(entities: entities, deltaTime: deltaTime, commandService: self)
         }
         
-        frontend?.addEntities(entitiesToSpawn)
-        entitiesToSpawn.removeAll()
+        if !entitiesToSpawn.isEmpty {
+            print("added \(entitiesToSpawn.count) nodes")
+            frontend?.addEntities(entitiesToSpawn)
+            entitiesToSpawn.removeAll()
+        }
         
         frontend?.removeEntities(entitiesToKill)
         entitiesToKill.removeAll()

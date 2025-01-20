@@ -9,6 +9,7 @@ import STCCommon
 import STCEngine
 import STCSystems
 import STCUserInput
+import STCLevel
 import SwiftUI
 #if os(iOS)
 import GameController
@@ -87,6 +88,7 @@ func makeGameContext(
         let dataSource = UserInputDataSource(userInputController)
         return InputSystem(dataSource: dataSource)
     }()
+    gameLoop.register(system: LevelSystem(), for: .update)
     gameLoop.register(system: inputSystem, for: .update)
     
     // TODO: add shot system

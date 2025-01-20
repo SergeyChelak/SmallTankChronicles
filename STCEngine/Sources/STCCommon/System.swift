@@ -12,6 +12,7 @@ public protocol GameSceneSetupService {
 }
 
 public protocol GameSceneEventHandler {
+    @MainActor
     func onConnect(setupService: GameSceneSetupService)
 }
 
