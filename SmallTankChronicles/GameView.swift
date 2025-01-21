@@ -31,7 +31,7 @@ struct GameView: View {
                 debugOptions: [.showsFPS, .showsPhysics, .showsNodeCount]
             )
 #if os(OSX)
-            .onKeyPress() { press in
+            .onKeyPress(phases: .all) { press in
                 state.onKeyPress(press)
                 return .handled
             }
