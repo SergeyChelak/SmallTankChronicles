@@ -10,28 +10,51 @@ import STCComponents
 import SpriteKit
 
 public class GameScene: SKScene {    
-    private weak var context: GameContext?
     private let cameraNode = SKCameraNode()
     private var levelRect: CGRect = .zero
     
-    public required init(
-        size: CGSize,
-        context: GameContext
-    ) {
-        super.init(size: size)
-        self.anchorPoint = .zero
-        self.context = context
-        context.setFrontend(self)
-    }
+    private var previousTime: TimeInterval?
+    public private(set) var deltaTime: TimeInterval = 0.0
     
-    required init?(coder aDecoder: NSCoder) {
+    private var systems: [RunLoopEvent: [System]] = [:]
+    private var collider: Collider?
+    
+    private var entitiesToSpawn: [GameEntity] = []
+    private var entitiesToKill: [GameEntity] = []
+    public private(set) var entities: [GameEntity] = []
+    
+    private let appearance: GameAppearance
+        
+    public required init(
+        appearance: GameAppearance
+    ) {
+        self.appearance = appearance
         super.init(size: .zero)
         self.anchorPoint = .zero
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("Initializer not implemented")
+    }
+    
+    public func register(system: System, for event: RunLoopEvent) {
+        var array = systems[event] ?? []
+        array.append(system)
+        systems[event] = array
+    }
+    
+    public func register(collider: Collider) {
+        self.collider = collider
+    }
+    
     public override func didMove(to view: SKView) {
         super.didMove(to: view)
-        context?.setup()
+        systems
+            .flatMap { $0.value }
+            .forEach { [weak self] in
+                guard let self else { return }
+                $0.onConnect(context: self)
+            }
         setupCamera()
         physicsWorld.contactDelegate = self
     }
@@ -44,19 +67,27 @@ public class GameScene: SKScene {
     
     public override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
-        let entities = allEntities()
-        Task {
-            context?.update(
-                entities: entities,
-                currentTime: currentTime
-            )
+        deltaTime = currentTime - (previousTime ?? currentTime)
+        entities = allEntities()
+        for system in self.systems[.update] ?? [] {
+            system.update(sceneContext: self)
         }
+        previousTime = currentTime
     }
     
     public override func didSimulatePhysics() {
         super.didSimulatePhysics()
         alignCameraPosition()
-        context?.physicsSimulated(entities: allEntities())
+        for system in self.systems[.physicsSimulated] ?? [] {
+            system.update(sceneContext: self)
+        }
+        
+        addChildren(entitiesToSpawn)
+        entitiesToSpawn.removeAll()
+        
+        entitiesToKill.forEach { $0.removeFromParent() }
+        entitiesToKill.removeAll()
+
     }
     
     private func alignCameraPosition() {
@@ -88,7 +119,7 @@ public class GameScene: SKScene {
     }
     
     private var mapScaleFactor: STCFloat {
-        context?.appearance.mapScaleFactor ?? 1.0
+        appearance.mapScaleFactor
     }
 }
 
@@ -99,30 +130,32 @@ extension GameScene: SKPhysicsContactDelegate {
             return
         }
         Task { @MainActor in
-            context?.didContactEntities(first: entityA, second: entityB)
+            collider?.onContact(entityA: entityA, entityB: entityB, sceneContext: self)
         }
     }
 }
 
-extension GameScene: GameSceneFrontend {
-    @MainActor
-    public func addEntities(_ nodes: [GameEntity]) {
-        addChildren(nodes)
-    }
-    
-    @MainActor
-    public func removeEntities(_ nodes: [GameEntity]) {
-        nodes.forEach { $0.removeFromParent() }
-    }
-
-    
-    @MainActor
-    public func rayCastEntities(from start: CGPoint, to end: CGPoint, handler: @escaping (GameEntity) -> ()) {
+extension GameScene: SceneContext, SceneSetupContext {
+    public func vision(_ start: CGPoint, rayLength: CGFloat, angle: CGFloat) -> [STCCommon.GameEntity] {
+        let _end = start.vectorValue + .rotation(angle) * rayLength
+        let end = _end.pointValue
+        var nodes: [GameEntity] = []
         physicsWorld.enumerateBodies(alongRayStart: start, end: end) { body, _, _, _ in
             guard let node = body.node as? GameEntity else {
                 return
             }
-            handler(node)
+            nodes.append(node)
         }
+        return nodes
+    }
+    
+    @MainActor
+    public func spawnEntity(_ entity: STCCommon.GameEntity) {
+        entitiesToSpawn.append(entity)
+    }
+    
+    @MainActor
+    public func killEntity(_ entity: STCCommon.GameEntity) {
+        entitiesToKill.append(entity)
     }
 }

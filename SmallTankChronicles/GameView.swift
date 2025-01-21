@@ -31,8 +31,9 @@ struct GameView: View {
                 debugOptions: [.showsFPS, .showsPhysics, .showsNodeCount]
             )
 #if os(OSX)
-            .onKeyPress(phases: [.up, .down]) { press in
-                state.onKeyPress(press) ? .handled : .ignored
+            .onKeyPress() { press in
+                state.onKeyPress(press)
+                return .handled
             }
 #endif
             HudView()

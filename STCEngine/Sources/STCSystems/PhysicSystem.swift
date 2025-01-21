@@ -17,7 +17,7 @@ public class PhysicSystem: Collider {
     nonisolated public init() { }
     
     @MainActor
-    public func onContact(entityA: STCCommon.GameEntity, entityB: STCCommon.GameEntity, commandService: CommandService) {
+    public func onContact(entityA: GameEntity, entityB: GameEntity, sceneContext: SceneContext) {
         guard let typeA = Body.from(entity: entityA),
               let typeB = Body.from(entity: entityB) else {
             return
@@ -26,19 +26,19 @@ public class PhysicSystem: Collider {
         case (.tank, .tank):
             collide(tankA: entityA, tankB: entityB)
         case (.tank, .projectile):
-            collide(tank: entityA, projectile: entityB, commandService: commandService)
+            collide(tank: entityA, projectile: entityB, sceneContext: sceneContext)
         case (.projectile, .tank):
-            collide(tank: entityB, projectile: entityA, commandService: commandService)
+            collide(tank: entityB, projectile: entityA, sceneContext: sceneContext)
         case (.tank, .obstacle):
             obstacleCollide(tank: entityA)
         case (.obstacle, .tank):
             obstacleCollide(tank: entityB)
         case (.projectile, .projectile):
-            collide(projectileA: entityA, projectileB: entityB, commandService: commandService)
+            collide(projectileA: entityA, projectileB: entityB, sceneContext: sceneContext)
         case (.projectile, .obstacle):
-            obstacleCollide(projectile: entityA, commandService: commandService)
+            obstacleCollide(projectile: entityA, sceneContext: sceneContext)
         case (.obstacle, .projectile):
-            obstacleCollide(projectile: entityB, commandService: commandService)
+            obstacleCollide(projectile: entityB, sceneContext: sceneContext)
         default:
             break
         }
@@ -50,16 +50,16 @@ public class PhysicSystem: Collider {
         slowDownTank(tankB)
     }
     
-    private func collide(tank: GameEntity, projectile: GameEntity, commandService: CommandService) {
+    private func collide(tank: GameEntity, projectile: GameEntity, sceneContext: SceneContext) {
         // collision tank with projectile
         if let component = tank.getComponent(of: HealthComponent.self),
            let projectileData = projectile.getComponent(of: ProjectileComponent.self) {
             component.health = max(0.0, component.health - projectileData.damage)
             if component.health == 0.0 {
-                explodeTank(tank, commandService: commandService)
+                explodeTank(tank, sceneContext: sceneContext)
             }
         }
-        explodeProjectile(projectile, commandService: commandService)
+        explodeProjectile(projectile, sceneContext: sceneContext)
     }
     
     private func obstacleCollide(tank: GameEntity) {
@@ -67,21 +67,21 @@ public class PhysicSystem: Collider {
         slowDownTank(tank)
     }
     
-    private func obstacleCollide(projectile: GameEntity, commandService: CommandService) {
+    private func obstacleCollide(projectile: GameEntity, sceneContext: SceneContext) {
         // collision projectile with obstacle
-        explodeProjectile(projectile, commandService: commandService)
+        explodeProjectile(projectile, sceneContext: sceneContext)
     }
     
-    private func collide(projectileA: GameEntity, projectileB: GameEntity, commandService: CommandService) {
+    private func collide(projectileA: GameEntity, projectileB: GameEntity, sceneContext: SceneContext) {
         // collision of 2 projectiles
-        explodeProjectile(projectileA, commandService: commandService) {
+        explodeProjectile(projectileA, sceneContext: sceneContext) {
             projectileB.removeFromParent()
         }
     }
     
     private func explodeProjectile(
         _ projectile: GameEntity,
-        commandService: CommandService,
+        sceneContext: SceneContext,
         completion: @escaping () -> Void = {}
     ) {
         if let node = SKEmitterNode(fileNamed: Self.explodeNodeName) {
@@ -90,12 +90,12 @@ public class PhysicSystem: Collider {
         }
         let actions = [
             SKAction.wait(forDuration: 0.05),
-            SKAction.run { commandService.killEntity(projectile) }
+            SKAction.run { sceneContext.killEntity(projectile) }
         ]
         projectile.run(.sequence(actions), completion: completion)
     }
     
-    private func explodeTank(_ tank: GameEntity, commandService: CommandService) {
+    private func explodeTank(_ tank: GameEntity, sceneContext: SceneContext) {
         tank.physicsBody = nil
         if let node = SKEmitterNode(fileNamed: Self.explodeNodeName) {
             node.zPosition = 1000
@@ -105,7 +105,7 @@ public class PhysicSystem: Collider {
         let disappearActions = [
             SKAction.wait(forDuration: time),
             SKAction.run {
-                commandService.killEntity(tank)
+                sceneContext.killEntity(tank)
             }
         ]
         let actions = SKAction.group([

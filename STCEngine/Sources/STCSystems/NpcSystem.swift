@@ -28,16 +28,12 @@ public class NpcSystem: System {
     }
     
     @MainActor
-    public func update(
-        entities: [STCCommon.GameEntity],
-        deltaTime: TimeInterval,
-        commandService: any STCCommon.CommandService
-    ) {
-        for entity in entities {
+    public func update(sceneContext: any STCCommon.SceneContext) {
+        for entity in sceneContext.entities {
             guard entity.hasComponent(of: NpcMarker.self) else {
                 continue
             }
-            let entities = detectEntities(entity, commandService: commandService)
+            let entities = detectEntities(entity, sceneContext: sceneContext)
             updateState(npc: entity, visibleEntities: entities)
         }
     }
@@ -45,7 +41,7 @@ public class NpcSystem: System {
     @MainActor
     private func detectEntities(
         _ entity: GameEntity,
-        commandService: any STCCommon.CommandService
+        sceneContext: any STCCommon.SceneContext
     ) -> [GameEntity] {
         let angle = entity.angle
         return stride(
@@ -54,7 +50,7 @@ public class NpcSystem: System {
             by: angleStep
         )
         .compactMap {
-            commandService.vision(
+            sceneContext.vision(
                 entity.position,
                 rayLength: rayLength,
                 angle: $0

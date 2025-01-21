@@ -16,17 +16,13 @@ public class LevelSystem: System {
     public init() { }
     
     @MainActor
-    public func update(
-        entities: [STCCommon.GameEntity],
-        deltaTime: TimeInterval,
-        commandService: any STCCommon.CommandService
-    ) {
+    public func update(sceneContext: any STCCommon.SceneContext) {
         // do nothing
     }
     
     @MainActor
-    public func onConnect(setupService: any STCCommon.GameSceneSetupService) {
-        let maxSpeed = 800.0
+    public func onConnect(context: SceneSetupContext) {
+        let maxSpeed = 600.0
         let tank = tankFactory.model1(color: .blue)
         tank.addComponents(
             PhaseComponent(),
@@ -43,7 +39,7 @@ public class LevelSystem: System {
         tank.position = CGPoint(x: -1000.0, y: -1000.0)
         tank.zRotation = 0.0
         tank.zPosition = 0.0
-        setupService.spawnEntity(tank)
-        print("LevelSystem - onConnect")
+        context.spawnEntity(tank)
+        print("[LevelSystem] onConnect")
     }
 }

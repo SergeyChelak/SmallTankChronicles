@@ -17,24 +17,26 @@ import GameController
 
 class GameViewState: ObservableObject {    
     private let userInputController = UserInputController()
-    private let gameContext: GameContext
+    private var gameScene: GameScene?
+    
+    private let parameters: GameParameters
     
     init(parameters: GameParameters) {
-        self.gameContext = makeGameContext(
-            parameters: parameters,
-            userInputController: userInputController
-        )
-        
+        self.parameters = parameters
 #if os(iOS)
         setupController()
 #endif
     }
     
-    @MainActor func gameScene(_ size: CGSize) -> GameScene {
-        GameScene(
-            size: size,
-            context: gameContext
+    @MainActor
+    func gameScene(_ size: CGSize) -> GameScene {
+        let scene = gameScene ?? makeGameScene(
+            parameters: parameters,
+            userInputController: userInputController
         )
+        scene.size = size
+        self.gameScene = scene
+        return scene
     }
     
 #if os(iOS)
@@ -68,19 +70,20 @@ class GameViewState: ObservableObject {
     
     
 #if os(OSX)
-    func onKeyPress(_ keyPress: KeyPress) -> Bool {
-        let data = KeyEventData(isPressed: keyPress.phase == .down, keyEquivalent: keyPress.key)
+    func onKeyPress(_ keyPress: KeyPress) {
+        let isPressed = keyPress.phase == .down || keyPress.phase == .repeat
+        let data = KeyEventData(isPressed: isPressed, keyEquivalent: keyPress.key)
         userInputController.handle(.key(data))
-        return true
     }
 #endif
 }
 
-func makeGameContext(
+@MainActor
+func makeGameScene(
     parameters: GameParameters,
     userInputController: UserInputController
-) -> GameContext {
-    let gameLoop = STCGameContext(appearance: parameters.appearance)
+) -> GameScene {
+    let scene = GameScene(appearance: parameters.appearance)
     // WARNING: Order is matter
     
     // input system
@@ -88,11 +91,11 @@ func makeGameContext(
         let dataSource = UserInputDataSource(userInputController)
         return InputSystem(dataSource: dataSource)
     }()
-    gameLoop.register(system: LevelSystem(), for: .update)
-    gameLoop.register(system: inputSystem, for: .update)
+    scene.register(system: LevelSystem(), for: .update)
+    scene.register(system: inputSystem, for: .update)
     
     // TODO: add shot system
-    gameLoop.register(system: MovementSystem(), for: .update)
+    scene.register(system: MovementSystem(), for: .update)
     
     let npcParams = parameters.npcParameters
     let npcSystem = NpcSystem(
@@ -101,9 +104,9 @@ func makeGameContext(
         raysCount: npcParams.raysCount,
         attackDistance: npcParams.attackDistance
     )
-    gameLoop.register(system: npcSystem, for: .update)
+    scene.register(system: npcSystem, for: .update)
     
-    gameLoop.register(collider: PhysicSystem())
+    scene.register(collider: PhysicSystem())
     
-    return gameLoop
+    return scene
 }

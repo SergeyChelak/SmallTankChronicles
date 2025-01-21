@@ -13,12 +13,9 @@ public class MovementSystem: System {
     public init() { }
     
     @MainActor
-    public func update(
-        entities: [STCCommon.GameEntity],
-        deltaTime: TimeInterval,
-        commandService: any STCCommon.CommandService
-    ) {
-        entities.forEach {
+    public func update(sceneContext: any STCCommon.SceneContext) {
+        let deltaTime = sceneContext.deltaTime
+        sceneContext.entities.forEach {
             update(entity: $0, deltaTime: deltaTime)
         }
     }

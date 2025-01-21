@@ -32,13 +32,10 @@ public class InputSystem: System {
         self.dataSource = dataSource
     }
     
-    public func update(
-        entities: [STCCommon.GameEntity],
-        deltaTime: TimeInterval,
-        commandService: any STCCommon.CommandService
-    ) {
+    @MainActor
+    public func update(sceneContext: any STCCommon.SceneContext) {
         let inputState = dataSource.getState()
-        entities
+        sceneContext.entities
             .filter {
                 $0.hasComponent(of: UserInputMarker.self)
             }

@@ -8,7 +8,7 @@
 import STCCommon
 
 extension GameSceneEventHandler {
-    public func onConnect(setupService: GameSceneSetupService) {
+    public func onConnect(context: SceneSetupContext) {
         // do nothing
     }
 }
