@@ -28,6 +28,6 @@ let package = Package(
         .target(name: "STCLevel", dependencies: ["STCCommon", "STCComponents", "STCObjects"]),
         .target(name: "STCUserInput"),
         .target(name: "STCEngine", dependencies: ["STCCommon", "STCComponents"]),
-        .target(name: "STCObjects", dependencies: ["STCCommon", "STCComponents"]),
+        .target(name: "STCObjects", dependencies: ["STCCommon", "STCComponents"])
     ]
 )

@@ -27,8 +27,11 @@ public struct TankAppearance {
         ].joined(separator: "_")
     }
     
-    public var trackAtlasName: String {
-        tracks.key
+    public var tracksImageNames: [String] {
+        ["A", "B"]
+            .map {
+                tracks.key + "_" + $0
+            }
     }
 }
 

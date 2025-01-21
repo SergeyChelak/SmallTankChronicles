@@ -55,7 +55,9 @@ public class Tank: SKSpriteNode {
     }
     
     private func createTracks() -> [SKSpriteNode] {
-        trackTextures = textures(from: appearance.trackAtlasName)
+        trackTextures = appearance.tracksImageNames.compactMap {
+            SKTexture(imageNamed: $0, bundle: .module)
+        }
         guard let texture = trackTextures.first else {
             return []
         }
