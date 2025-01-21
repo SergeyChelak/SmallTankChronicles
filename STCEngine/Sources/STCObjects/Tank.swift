@@ -37,13 +37,13 @@ public class Tank: SKSpriteNode {
     }
     
     private func setupChildren() {
-        let hull = SKSpriteNode(imageNamed: appearance.hullImageName)
+        let hull = SKSpriteNode(imageNamed: appearance.hullImageName, bundle: .module)
         hull.name = Element.hull.rawValue
         hull.zPosition = 9
         self.size = hull.size
         addChild(hull)
         
-        let cannon = SKSpriteNode(imageNamed: appearance.cannonImageName)
+        let cannon = SKSpriteNode(imageNamed: appearance.cannonImageName, bundle: .module)
         cannon.name = Element.cannon.rawValue
         cannon.zPosition = 10
         cannon.anchorPoint = CGPoint(x: 0.5, y: 0.2)

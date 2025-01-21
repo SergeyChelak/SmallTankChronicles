@@ -49,7 +49,7 @@ public class Projectile: SKSpriteNode {
     }
     
     private func setupChildren() {
-        let node = SKSpriteNode(imageNamed: appearance.imageNamed)
+        let node = SKSpriteNode(imageNamed: appearance.imageNamed, bundle: .module)
         self.size = node.size
         addChild(node)
     }
